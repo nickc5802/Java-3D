@@ -66,7 +66,6 @@ public class Game extends JPanel {
 		g.fillRect(0, 0, width, height / 2);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, height / 2, width, height / 2);
-		g.setColor(Color.GRAY);
 		for (int i = 0; i < width; i++) {
 			if (objects[i] == 1) {
 				g.setColor(Color.GRAY);
@@ -76,7 +75,7 @@ public class Game extends JPanel {
 				g.setColor(Color.GREEN);
 			}
 			if (objects[i] != 0) {
-				g.fillRect(i, (int)dist[i] / 4, 1, (height / 2 - (int)dist[i] / 4) * 2);
+				g.fillRect(i, (int)dist[i] / 4, 1, (height - (int)dist[i] / 2));
 			}
 		}
 	}
