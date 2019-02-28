@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.Comparator;
 
 import javax.swing.JPanel;
 
@@ -9,11 +10,14 @@ public class Game extends JPanel {
 	double[][] objects;
 	int width, height;
 	Camera camera;
+	int viewDist;
+	int[][] draw;
 	
 	public Game(int[][] map) {
 		super();
 		width = 800;
 		height = 450;
+		viewDist = 1200;
 		setPreferredSize(new Dimension(width, height));
 		this.map = map;
 		camera = new Camera(map);
@@ -73,7 +77,7 @@ public class Game extends JPanel {
 			}
 			if (objects[i][0] != 0) {
 				if (objects[i][0] <= 1200) {
-					g.fillRect(i, (int)objects[i][1] / 4, 1, (height - (int)objects[i][1] / 2));
+					g.fillRect(i, (int)objects[i][1] / (viewDist / (height / 2)), 1, (height - (int)objects[i][1] / ((viewDist / (height / 2)) / 2)));
 				}
 			}
 		}
