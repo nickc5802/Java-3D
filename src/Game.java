@@ -75,7 +75,9 @@ public class Game extends JPanel {
 				g.setColor(Color.GREEN);
 			}
 			if (objects[i] != 0) {
-				g.fillRect(i, (int)dist[i] / 4, 1, (height - (int)dist[i] / 2));
+				if (dist[i] <= 1200) {
+					g.fillRect(i, (int)dist[i] / 4, 1, (height - (int)dist[i] / 2));
+				}
 			}
 		}
 	}
