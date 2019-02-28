@@ -6,8 +6,7 @@ import javax.swing.JPanel;
 
 public class Game extends JPanel {
 	int[][] map;
-	double[] objects;
-	double[] dist;
+	double[][] objects;
 	int width, height;
 	Camera camera;
 	
@@ -18,8 +17,7 @@ public class Game extends JPanel {
 		setPreferredSize(new Dimension(width, height));
 		this.map = map;
 		camera = new Camera(map);
-		objects = new double[width];
-		dist = new double[width];
+		objects = new double[width][2];
 		getObjects();
 	}
 	
@@ -36,8 +34,7 @@ public class Game extends JPanel {
 	private void getObjects() {
 		for (double i = camera.fov / -2; i < camera.fov / 2; i += camera.fov / width) {
 			int index = (int)((i + (camera.fov / 2)) * (width / camera.fov));
-			objects[index] = sendRay(i)[0];
-			dist[index] = sendRay(i)[1];
+			objects[index] = sendRay(i);
 		}
 	}
 	
@@ -67,16 +64,16 @@ public class Game extends JPanel {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, height / 2, width, height / 2);
 		for (int i = 0; i < width; i++) {
-			if (objects[i] == 1) {
+			if (objects[i][0] == 1) {
 				g.setColor(Color.GRAY);
-			} else if (objects[i] == 2) {
+			} else if (objects[i][0] == 2) {
 				g.setColor(Color.RED);
-			} else if (objects[i] == 3) {
+			} else if (objects[i][0] == 3) {
 				g.setColor(Color.GREEN);
 			}
-			if (objects[i] != 0) {
-				if (dist[i] <= 1200) {
-					g.fillRect(i, (int)dist[i] / 4, 1, (height - (int)dist[i] / 2));
+			if (objects[i][0] != 0) {
+				if (objects[i][0] <= 1200) {
+					g.fillRect(i, (int)objects[i][1] / 4, 1, (height - (int)objects[i][1] / 2));
 				}
 			}
 		}
