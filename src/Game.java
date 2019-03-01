@@ -29,11 +29,12 @@ public class Game extends JPanel {
 	public void update() {
 		camera.update();
 		getObjects();
+		getEnemies();
 		setUpDraw();
 		repaint();
 	}
 	
-	public void setUpDraw() {
+	private void setUpDraw() {
 		draw = new ArrayList<ArrayList<int[]>>();
 		for (int i = 0; i < viewDist; i++) {
 			draw.add(new ArrayList<int[]>());
@@ -45,6 +46,10 @@ public class Game extends JPanel {
 	
 	public Camera getCam() {
 		return camera;
+	}
+	
+	private void getEnemies() {
+		
 	}
 	
 	private void getObjects() {
@@ -92,7 +97,7 @@ public class Game extends JPanel {
 					}
 					g.fillRect(draw.get(i).get(j)[2], i / (viewDist / (height / 2)), 1, (height - i / ((viewDist / (height / 2)) / 2)));
 				} else if (draw.get(i).get(j)[0] == 1) {
-					//draw enemies
+					
 				}
 			}
 		}
