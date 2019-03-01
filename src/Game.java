@@ -80,8 +80,8 @@ public class Game extends JPanel {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, height / 2, width, height / 2);
 		for (int i = 0; i < viewDist; i++) {
-			if (draw != null) {
-				for (int j = 0; j < draw.get(i).size(); j++) {
+			for (int j = 0; j < draw.get(i).size(); j++) {
+				if (draw.get(i).get(j)[0] == 0) {
 					int color = draw.get(i).get(j)[1];
 					if (color == 1) {
 						g.setColor(Color.GRAY);
@@ -91,6 +91,8 @@ public class Game extends JPanel {
 						g.setColor(Color.GREEN);
 					}
 					g.fillRect(draw.get(i).get(j)[2], i / (viewDist / (height / 2)), 1, (height - i / ((viewDist / (height / 2)) / 2)));
+				} else if (draw.get(i).get(j)[0] == 1) {
+					//draw enemies
 				}
 			}
 		}
