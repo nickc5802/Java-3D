@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -10,6 +11,7 @@ public class Game extends JPanel {
 	int width, height;
 	Camera camera;
 	int viewDist;
+	ArrayList<ArrayList<int[]>> draw;
 	
 	public Game(int[][] map) {
 		super();
@@ -21,12 +23,24 @@ public class Game extends JPanel {
 		camera = new Camera(map);
 		objects = new double[width][2];
 		getObjects();
+		setUpDraw();
 	}
 	
 	public void update() {
 		camera.update();
 		getObjects();
+		setUpDraw();
 		repaint();
+	}
+	
+	public void setUpDraw() {
+		draw = new ArrayList<ArrayList<int[]>>();
+		for (int i = 0; i < viewDist; i++) {
+			draw.add(new ArrayList<int[]>());
+		}
+		for (int i = 0; i < objects.length; i++) {
+			draw.get((int) objects[i][1]).add(new int[] {0, (int) objects[i][0], i});
+		}
 	}
 	
 	public Camera getCam() {
@@ -65,17 +79,18 @@ public class Game extends JPanel {
 		g.fillRect(0, 0, width, height / 2);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, height / 2, width, height / 2);
-		for (int i = 0; i < width; i++) {
-			if (objects[i][0] == 1) {
-				g.setColor(Color.GRAY);
-			} else if (objects[i][0] == 2) {
-				g.setColor(Color.RED);
-			} else if (objects[i][0] == 3) {
-				g.setColor(Color.GREEN);
-			}
-			if (objects[i][0] != 0) {
-				if (objects[i][0] <= 1200) {
-					g.fillRect(i, (int)objects[i][1] / (viewDist / (height / 2)), 1, (height - (int)objects[i][1] / ((viewDist / (height / 2)) / 2)));
+		for (int i = 0; i < viewDist; i++) {
+			if (draw != null) {
+				for (int j = 0; j < draw.get(i).size(); j++) {
+					int color = draw.get(i).get(j)[1];
+					if (color == 1) {
+						g.setColor(Color.GRAY);
+					} else if (color == 2) {
+						g.setColor(Color.RED);
+					} else if (color == 3) {
+						g.setColor(Color.GREEN);
+					}
+					g.fillRect(draw.get(i).get(j)[2], i / (viewDist / (height / 2)), 1, (height - i / ((viewDist / (height / 2)) / 2)));
 				}
 			}
 		}
