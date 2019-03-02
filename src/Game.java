@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ public class Game extends JPanel {
 	Camera camera;
 	int viewDist;
 	ArrayList<ArrayList<int[]>> draw;
+	ArrayList<ArrayList<int[]>> enemyDraw;
+	ArrayList<Enemy> enemies;
 	
 	public Game(int[][] map) {
 		super();
@@ -22,15 +25,16 @@ public class Game extends JPanel {
 		this.map = map;
 		camera = new Camera(map);
 		objects = new double[width][2];
-		getObjects();
-		setUpDraw();
+		enemies = new ArrayList<Enemy>();
+		enemies.add(new Head(150, 250));
+		update();
 	}
 	
 	public void update() {
 		camera.update();
 		getObjects();
-		getEnemies();
 		setUpDraw();
+		getEnemies();
 		repaint();
 	}
 	
@@ -49,7 +53,24 @@ public class Game extends JPanel {
 	}
 	
 	private void getEnemies() {
-		
+		for (double i = camera.fov / -2; i < camera.fov / 2; i += camera.fov / width) {
+			double rot = i + camera.rot;
+			double posX = camera.posX, posY = camera.posY;
+			double vectX, vectY;
+			vectX = Math.cos(rot * Math.PI);
+			vectY = Math.sin(rot * Math.PI);
+			for (int j = 0; j < viewDist; j++) {
+				posX += vectX;
+				posY += vectY;
+				if ((int)(posX / 100) < map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < map[0].length && (int)(posY / 100) >= 0) {
+					for (int k = 0; k < enemies.size(); k++) {
+						if ((int) (enemies.get(k).getPosX() / 2) == (int) (posX / 2) && (int) (enemies.get(k).getPosX() / 2) == (int) (posX / 2)) {
+							draw.get((int) Math.sqrt(Math.pow((posX - camera.posX), 2) + Math.pow((posY - camera.posY), 2))).add(new int[] {1, (int) i, k});
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	private void getObjects() {
@@ -65,7 +86,7 @@ public class Game extends JPanel {
 		double vectX, vectY;
 		vectX = Math.cos(rot * Math.PI);
 		vectY = Math.sin(rot * Math.PI);
-		for (int i = 0; i < 1200; i++) {
+		for (int i = 0; i < viewDist; i++) {
 			posX += vectX;
 			posY += vectY;
 			if ((int)(posX / 100) < map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < map[0].length && (int)(posY / 100) >= 0) {
@@ -96,10 +117,12 @@ public class Game extends JPanel {
 						g.setColor(Color.GREEN);
 					}
 					g.fillRect(draw.get(i).get(j)[2], i / (viewDist / (height / 2)), 1, (height - i / ((viewDist / (height / 2)) / 2)));
-				} else if (draw.get(i).get(j)[0] == 1) {
-					
 				}
 			}
 		}
+	}
+	
+	public Enemy getEnemy(int index) {
+		return enemies.get(index);
 	}
 }
