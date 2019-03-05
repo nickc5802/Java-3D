@@ -25,7 +25,7 @@ public class Game extends JPanel {
 		camera = new Camera(map);
 		objects = new double[width][2];
 		enemies = new ArrayList<Enemy>();
-		enemies.add(new Head(650, 650));
+		enemies.add(new TargetThing(650, 650));
 		update();
 	}
 	
