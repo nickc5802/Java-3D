@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class Game extends JPanel {
 		camera = new Camera(map);
 		objects = new double[width][2];
 		enemies = new ArrayList<Enemy>();
-		enemies.add(new Head(150, 250));
+		enemies.add(new Head(650, 650));
 		update();
 	}
 	
@@ -64,8 +63,8 @@ public class Game extends JPanel {
 				posY += vectY;
 				if ((int)(posX / 100) < map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < map[0].length && (int)(posY / 100) >= 0) {
 					for (int k = 0; k < enemies.size(); k++) {
-						if ((int) (enemies.get(k).getPosX() / 2) == (int) (posX / 2) && (int) (enemies.get(k).getPosX() / 2) == (int) (posX / 2)) {
-							draw.get((int) Math.sqrt(Math.pow((posX - camera.posX), 2) + Math.pow((posY - camera.posY), 2))).add(new int[] {1, (int) i, k});
+						if ((int) (enemies.get(k).getPosX()) == (int) (posX) && (int) (enemies.get(k).getPosY()) == (int) (posY)) {
+							draw.get((int) Math.sqrt((posX - camera.posX) * (posX - camera.posX) + (posY - camera.posY) * (posY - camera.posY))).add(new int[] {1, (int)((i + (camera.fov / 2)) * (width / camera.fov)), k});
 						}
 					}
 				}
@@ -105,7 +104,7 @@ public class Game extends JPanel {
 		g.fillRect(0, 0, width, height / 2);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, height / 2, width, height / 2);
-		for (int i = 0; i < viewDist; i++) {
+		for (int i = viewDist - 1; i >= 0 ; i--) {
 			for (int j = 0; j < draw.get(i).size(); j++) {
 				if (draw.get(i).get(j)[0] == 0) {
 					int color = draw.get(i).get(j)[1];
@@ -117,9 +116,17 @@ public class Game extends JPanel {
 						g.setColor(Color.GREEN);
 					}
 					g.fillRect(draw.get(i).get(j)[2], i / (viewDist / (height / 2)), 1, (height - i / ((viewDist / (height / 2)) / 2)));
+				} else if (draw.get(i).get(j)[0] == 1) {
+					Enemy e = getEnemy(draw.get(i).get(j)[2]);
+					double newHeight =  (height - i / ((viewDist / (height / 2)) / 2));
+					double newWidth = (newHeight * e.getSprite().getWidth()) / e.getSprite().getHeight();
+					g.drawImage(e.getSprite(), draw.get(i).get(j)[1], (int) (i / (viewDist / (height / 4))) + height / 4, (int) (newWidth / 2), (int) (newHeight / 2), null);
 				}
 			}
 		}
+		g.setColor(Color.BLACK);
+		g.fillRect((int) (width / 2.0) - 5, (int) (height / 2.0) - 1, 10, 2);
+		g.fillRect((int) (width / 2.0) - 1, (int) (height / 2.0) - 5, 2, 10);
 	}
 	
 	public Enemy getEnemy(int index) {

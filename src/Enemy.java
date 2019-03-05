@@ -4,10 +4,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public abstract class Enemy {
-	protected BufferedImage sprite;
+	private BufferedImage sprite;
 	private double posX, posY;
+	private int health;
 	
-	public Enemy(double x, double y, String image) {
+	public Enemy(double x, double y, int health, String image) {
 		try {
 			sprite = ImageIO.read(getClass().getResource(image));
 		} catch (IOException e) {
@@ -16,7 +17,7 @@ public abstract class Enemy {
 		posX = x;
 		posY = y;
 	}
-	
+
 	public BufferedImage getSprite() {
 		return sprite;
 	}
