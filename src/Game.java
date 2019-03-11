@@ -22,7 +22,7 @@ public class Game extends JPanel {
 		viewDist = 1200;
 		setPreferredSize(new Dimension(width, height));
 		this.map = map;
-		camera = new Camera(map);
+		camera = new Camera(map, this);
 		objects = new double[width][2];
 		enemies = new ArrayList<Enemy>();
 		enemies.add(new TargetThing(650, 650));
@@ -120,7 +120,7 @@ public class Game extends JPanel {
 					Enemy e = getEnemy(draw.get(i).get(j)[2]);
 					double newHeight =  (height - i / ((viewDist / (height / 2)) / 2));
 					double newWidth = (newHeight * e.getSprite().getWidth()) / e.getSprite().getHeight();
-					g.drawImage(e.getSprite(), draw.get(i).get(j)[1], (int) (i / (viewDist / (height / 4))) + height / 4, (int) (newWidth / 2), (int) (newHeight / 2), null);
+					g.drawImage(e.getSprite(), draw.get(i).get(j)[1] - (int) (newWidth / 2), (int) (i / (viewDist / (height / 4))) + height / 4, (int) (newWidth / 2), (int) (newHeight / 2), null);
 				}
 			}
 		}
@@ -131,5 +131,35 @@ public class Game extends JPanel {
 	
 	public Enemy getEnemy(int index) {
 		return enemies.get(index);
+	}
+	
+	public void shoot() {
+		double rot = camera.rot;
+		double posX = camera.posX, posY = camera.posY;
+		double vectX, vectY;
+		vectX = Math.cos(rot * Math.PI);
+		vectY = Math.sin(rot * Math.PI);
+		for (int j = 0; j < viewDist; j++) {
+			posX += vectX;
+			posY += vectY;
+			if ((int)(posX / 100) < map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < map[0].length && (int)(posY / 100) >= 0) {
+				if (map[(int)(posX / 100)][(int)(posY / 100)] != 0) {
+					return;
+				}
+				for (int k = 0; k < enemies.size(); k++) {
+					Enemy e = enemies.get(k);
+					int dist = (int) Math.sqrt((camera.posX - e.getPosX() * camera.posX - e.getPosX()) + (camera.posY - e.getPosY() * camera.posY - e.getPosY()));
+					double newHeight =  (height - dist / ((viewDist / (height / 2)) / 2));
+					double newWidth = (newHeight * e.getSprite().getWidth()) / e.getSprite().getHeight();
+					if ((int) (enemies.get(k).getPosX()) < (int) (posX) && (int) (enemies.get(k).getPosX()) + newWidth > (int) (posX) && (int) (enemies.get(k).getPosY()) < (int) (posY) && (int) (enemies.get(k).getPosY()) + newWidth > (int) (posY)) {
+						if (enemies.get(k).onHit(25)) {
+							enemies.remove(k);
+						}
+						System.out.println("hit");
+						return;
+					}
+				}
+			}
+		}
 	}
 }

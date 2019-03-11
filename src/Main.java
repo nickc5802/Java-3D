@@ -28,7 +28,9 @@ public class Main {
 			}
 		};
 		frame.addKeyListener(game.getCam());
+		frame.addMouseListener(game.getCam());
 		game.addKeyListener(game.getCam());
+		game.addMouseListener(game.getCam());
 		Timer timer = new Timer();
 		timer.schedule(task, 0, 1000/60);
 	}

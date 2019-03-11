@@ -1,17 +1,21 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class Camera implements KeyListener {
+public class Camera implements KeyListener, MouseListener {
 	double posX, posY, rot, fov;
 	boolean forward, back, left, right;
 	int[][] map;
+	Game game;
 	
-	public Camera(int[][] map) {
+	public Camera(int[][] map, Game g) {
 		posX = 150;
 		posY = 150;
 		rot = 0;
 		fov = .3;
 		this.map = map;
+		game = g;
 	}
 	
 	public void update() {
@@ -67,4 +71,21 @@ public class Camera implements KeyListener {
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		game.shoot();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
 }

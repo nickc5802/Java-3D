@@ -29,4 +29,17 @@ public abstract class Enemy {
 	public double getPosY() {
 		return posY;
 	}
+	
+	public boolean onHit(int damage) {
+		health -= damage;
+		if (health <= 0) {
+			return true;
+		} else { 
+			return false;
+		}
+	}
+	
+	public int getHealth() {
+		return health;
+	}
 }
