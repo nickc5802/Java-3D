@@ -5,10 +5,10 @@ import javax.imageio.ImageIO;
 
 public abstract class Enemy {
 	private BufferedImage sprite;
-	private double posX, posY;
+	private double posX, posY, speed;
 	private int health;
 	
-	public Enemy(double x, double y, int health, String image) {
+	public Enemy(double x, double y, int health, double speed, String image) {
 		try {
 			sprite = ImageIO.read(getClass().getResource(image));
 		} catch (IOException e) {
@@ -16,6 +16,7 @@ public abstract class Enemy {
 		}
 		posX = x;
 		posY = y;
+		this.speed = speed;
 	}
 
 	public BufferedImage getSprite() {

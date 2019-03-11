@@ -151,11 +151,10 @@ public class Game extends JPanel {
 					int dist = (int) Math.sqrt((camera.posX - e.getPosX() * camera.posX - e.getPosX()) + (camera.posY - e.getPosY() * camera.posY - e.getPosY()));
 					double newHeight =  (height - dist / ((viewDist / (height / 2)) / 2));
 					double newWidth = (newHeight * e.getSprite().getWidth()) / e.getSprite().getHeight();
-					if ((int) (enemies.get(k).getPosX()) < (int) (posX) && (int) (enemies.get(k).getPosX()) + newWidth > (int) (posX) && (int) (enemies.get(k).getPosY()) < (int) (posY) && (int) (enemies.get(k).getPosY()) + newWidth > (int) (posY)) {
+					if ((int) (enemies.get(k).getPosX() - newWidth / 2) < (int) (posX) && (int) (enemies.get(k).getPosX() + newWidth / 2) > (int) (posX) && (int) (enemies.get(k).getPosY()) < (int) (posY) && (int) (enemies.get(k).getPosY()) + newWidth > (int) (posY)) {
 						if (enemies.get(k).onHit(25)) {
 							enemies.remove(k);
 						}
-						System.out.println("hit");
 						return;
 					}
 				}
