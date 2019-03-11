@@ -25,11 +25,14 @@ public class Game extends JPanel {
 		camera = new Camera(map, this);
 		objects = new double[width][2];
 		enemies = new ArrayList<Enemy>();
-		enemies.add(new TargetThing(650, 650));
+		enemies.add(new TargetThing(600, 600, camera));
 		update();
 	}
 	
 	public void update() {
+		for (Enemy e : enemies) {
+			e.walk();
+		}
 		camera.update();
 		getObjects();
 		setUpDraw();
