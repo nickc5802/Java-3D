@@ -103,10 +103,12 @@ public class Game extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		//roof and floor
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(0, 0, width, height / 2);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, height / 2, width, height / 2);
+		//walls and enemies
 		for (int i = viewDist - 1; i >= 0 ; i--) {
 			for (int j = 0; j < draw.get(i).size(); j++) {
 				if (draw.get(i).get(j)[0] == 0) {
@@ -127,9 +129,13 @@ public class Game extends JPanel {
 				}
 			}
 		}
+		//hud
+		//cross heir
 		g.setColor(Color.BLACK);
 		g.fillRect((int) (width / 2.0) - 5, (int) (height / 2.0) - 1, 10, 2);
 		g.fillRect((int) (width / 2.0) - 1, (int) (height / 2.0) - 5, 2, 10);
+		//health and ammo
+		
 	}
 	
 	public Enemy getEnemy(int index) {
