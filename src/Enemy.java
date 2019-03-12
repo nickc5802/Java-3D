@@ -50,14 +50,11 @@ public abstract class Enemy {
 		double distX = posX - cam.posX;
 		double distY = posY - cam.posY;
 		double dist = Math.sqrt(distX * distX + distY * distY);
-		double moveX = distX / (dist / speed);
-		double moveY = distX / (dist / speed);
+		double moveX = -distX / (dist / speed);
+		double moveY = -distX / (dist / speed);
 		if ((posX + moveX) / 100 < Main.map.length && (posY + moveY) / 100 < Main.map[0].length) {
-			System.out.println("1");
 			if (posX +  moveX >= 0 && posY + moveY >= 0) {
-				System.out.println("2");
 				if (Main.map[(int)((posX + moveX) / 100)][(int)((posY + moveY) / 100)] == 0) {
-					System.out.println("3");
 					posX += moveX;
 					posY += moveY;
 				}
