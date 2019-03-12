@@ -66,7 +66,7 @@ public class Game extends JPanel {
 				posY += vectY;
 				if ((int)(posX / 100) < map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < map[0].length && (int)(posY / 100) >= 0) {
 					for (int k = 0; k < enemies.size(); k++) {
-						if ((int) (enemies.get(k).getPosX()) == (int) (posX) && (int) (enemies.get(k).getPosY()) == (int) (posY)) {
+						if ((int) (enemies.get(k).getPosX() * 2) == (int) (posX * 2) && (int) (enemies.get(k).getPosY() * 2) == (int) (posY * 2)) {
 							draw.get((int) Math.sqrt((posX - camera.posX) * (posX - camera.posX) + (posY - camera.posY) * (posY - camera.posY))).add(new int[] {1, (int)((i + (camera.fov / 2)) * (width / camera.fov)), k});
 						}
 					}
