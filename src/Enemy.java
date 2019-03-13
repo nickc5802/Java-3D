@@ -6,10 +6,13 @@ import javax.imageio.ImageIO;
 public abstract class Enemy {
 	private BufferedImage sprite;
 	private double posX, posY, speed;
-	private int health;
+	private int health, damage;
 	private Camera cam;
+	private Game game;
 	
-	public Enemy(double x, double y, int health, double speed, String image, Camera cam) {
+	private double attackDelay;
+	
+	public Enemy(double x, double y, int health, int damage, double speed, String image, Camera cam, Game game) {
 		try {
 			sprite = ImageIO.read(getClass().getResource(image));
 		} catch (IOException e) {
@@ -19,6 +22,9 @@ public abstract class Enemy {
 		posY = y;
 		this.speed = speed;
 		this.cam = cam;
+		this.game = game;
+		this.damage = damage;
+		attackDelay = 0;
 	}
 
 	public BufferedImage getSprite() {
@@ -46,7 +52,21 @@ public abstract class Enemy {
 		return health;
 	}
 	
-	public void walk() {
+	public void update() {
+		walk();
+		attack();
+	}
+	
+	private void attack() {
+		double distX = posX - cam.posX;
+		double distY = posY - cam.posY;
+		if (attackDelay <= 0 && Math.sqrt(distX * distX + distY * distY) < 3) {
+			attackDelay = 5;
+			game.damage(damage);
+		}
+	}
+	
+	private void walk() {
 		double distX = posX - cam.posX;
 		double distY = posY - cam.posY;
 		double dist = Math.sqrt(distX * distX + distY * distY);

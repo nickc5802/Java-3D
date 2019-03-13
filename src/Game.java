@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -9,6 +10,7 @@ public class Game extends JPanel {
 	int[][] map;
 	double[][] objects;
 	int width, height;
+	int health;
 	Camera camera;
 	int viewDist;
 	ArrayList<ArrayList<int[]>> draw;
@@ -20,18 +22,19 @@ public class Game extends JPanel {
 		width = 800;
 		height = 450;
 		viewDist = 1200;
+		health = 100;
 		setPreferredSize(new Dimension(width, height));
 		this.map = map;
 		camera = new Camera(map, this);
 		objects = new double[width][2];
 		enemies = new ArrayList<Enemy>();
-		enemies.add(new TargetThing(600, 600, camera));
+		enemies.add(new TargetThing(600, 600, camera, this));
 		update();
 	}
 	
 	public void update() {
 		for (Enemy e : enemies) {
-			e.walk();
+			e.update();
 		}
 		camera.update();
 		getObjects();
@@ -54,6 +57,10 @@ public class Game extends JPanel {
 		return camera;
 	}
 	
+	public void damage(int damage) {
+		health -= damage;
+	}
+	
 	private void getEnemies() {
 		for (double i = camera.fov / -2; i < camera.fov / 2; i += camera.fov / width) {
 			double rot = i + camera.rot;
@@ -66,7 +73,7 @@ public class Game extends JPanel {
 				posY += vectY;
 				if ((int)(posX / 100) < map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < map[0].length && (int)(posY / 100) >= 0) {
 					for (int k = 0; k < enemies.size(); k++) {
-						if ((int) (enemies.get(k).getPosX() * 2) == (int) (posX * 2) && (int) (enemies.get(k).getPosY() * 2) == (int) (posY * 2)) {
+						if ((int) (enemies.get(k).getPosX()) == (int) (posX) && (int) (enemies.get(k).getPosY()) == (int) (posY)) {
 							draw.get((int) Math.sqrt((posX - camera.posX) * (posX - camera.posX) + (posY - camera.posY) * (posY - camera.posY))).add(new int[] {1, (int)((i + (camera.fov / 2)) * (width / camera.fov)), k});
 						}
 					}
@@ -135,7 +142,9 @@ public class Game extends JPanel {
 		g.fillRect((int) (width / 2.0) - 5, (int) (height / 2.0) - 1, 10, 2);
 		g.fillRect((int) (width / 2.0) - 1, (int) (height / 2.0) - 5, 2, 10);
 		//health and ammo
-		
+		//g.drawImage(this.getClass().getResource("/hudBackground.png"), height - imgHeight, (width - imgWidth) / 2, null);
+		g.setFont(new Font("arial", 0, 20));
+		g.drawString(health + "", 0, height - 5);
 	}
 	
 	public Enemy getEnemy(int index) {
