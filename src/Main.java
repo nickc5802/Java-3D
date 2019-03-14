@@ -14,9 +14,10 @@ public class Main {
 			{1,0,0,0,0,0,0,1},
 			{1,1,1,1,1,1,1,1}
 	};
+	private static Game game;
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("3D Test");
-		Game game = new Game(map);
+		game = new Game(map);
 		frame.add(game);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,6 +25,9 @@ public class Main {
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
+				if (game.getHealth() <= 0) {
+					game = new Game(map);
+				}
 				game.update();				
 			}
 		};

@@ -61,9 +61,13 @@ public abstract class Enemy {
 		double distX = posX - cam.posX;
 		double distY = posY - cam.posY;
 		if (attackDelay <= 0 && Math.sqrt(distX * distX + distY * distY) < 3) {
-			attackDelay = 5;
+			attackDelay = 20;
 			game.damage(damage);
 		}
+		if (attackDelay > 0) {
+			attackDelay -= 1;
+		}
+		System.out.println(attackDelay + " " + (attackDelay <= 0 && Math.sqrt(distX * distX + distY * distY) < 3) + " " + (attackDelay > 0));
 	}
 	
 	private void walk() {

@@ -61,6 +61,10 @@ public class Game extends JPanel {
 		health -= damage;
 	}
 	
+	public int getHealth() {
+		return health;
+	}
+	
 	private void getEnemies() {
 		for (double i = camera.fov / -2; i < camera.fov / 2; i += camera.fov / width) {
 			double rot = i + camera.rot;
