@@ -131,7 +131,7 @@ public class Game extends JPanel {
 					} else if (color == 3) {
 						g.setColor(Color.GREEN);
 					}
-					g.fillRect(draw.get(i).get(j)[2], i / (viewDist / (height / 2)), 1, (height - i / ((viewDist / (height / 2)) / 2)));
+					g.fillRect(draw.get(i).get(j)[2], i / (viewDist / (height / 2)), 1, ((height / 2) - (i / (viewDist / (height / 2)))) * 2);
 				} else if (draw.get(i).get(j)[0] == 1) {
 					Enemy e = getEnemy(draw.get(i).get(j)[2]);
 					double newHeight =  (height - i / ((viewDist / (height / 2)) / 2));
