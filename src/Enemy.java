@@ -67,7 +67,6 @@ public abstract class Enemy {
 		if (attackDelay > 0) {
 			attackDelay -= 1;
 		}
-		System.out.println(attackDelay + " " + (attackDelay <= 0 && Math.sqrt(distX * distX + distY * distY) < 3) + " " + (attackDelay > 0));
 	}
 	
 	private void walk() {
