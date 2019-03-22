@@ -6,32 +6,30 @@ import java.awt.event.MouseListener;
 public class Camera implements KeyListener, MouseListener {
 	double posX, posY, rot, fov;
 	boolean forward, back, left, right;
-	int[][] map;
 	Game game;
 	
-	public Camera(int[][] map, Game g) {
+	public Camera(Game g) {
 		posX = 150;
 		posY = 150;
 		rot = 0;
 		fov = .3;
-		this.map = map;
 		game = g;
 	}
 	
 	public void update() {
 		if (forward) {			
-			if ((int)((posX + Math.cos(rot * Math.PI) * 5)/100) < map.length && (int)((posY + Math.sin(rot * Math.PI) * 5)/100) < map[0].length) {
+			if ((int)((posX + Math.cos(rot * Math.PI) * 5)/100) < Main.map.length && (int)((posY + Math.sin(rot * Math.PI) * 5)/100) < Main.map[0].length) {
 				if ((int)((posX + Math.cos(rot * Math.PI) * 5)/100) >= 0 && (int)((posY + Math.sin(rot * Math.PI) * 5)/100) >= 0) {
-					if (map[(int)((posX + Math.cos(rot * Math.PI) * 5)/100)][(int)((posY + Math.sin(rot * Math.PI) * 5)/100)] == 0) {
+					if (Main.map[(int)((posX + Math.cos(rot * Math.PI) * 5)/100)][(int)((posY + Math.sin(rot * Math.PI) * 5)/100)] == 0) {
 						posX += Math.cos(rot * Math.PI) * 5;
 						posY += Math.sin(rot * Math.PI) * 5;
 					}
 				}
 			}
 		} else if (back) {
-			if ((int)((posX - Math.cos(rot * Math.PI) * 5)/100) < map.length && (int)((posY - Math.sin(rot * Math.PI) * 5)/100) < map[0].length) {
+			if ((int)((posX - Math.cos(rot * Math.PI) * 5)/100) < Main.map.length && (int)((posY - Math.sin(rot * Math.PI) * 5)/100) < Main.map[0].length) {
 				if ((int)((posX - Math.cos(rot * Math.PI) * 5)/100) >= 0 && (int)((posY - Math.sin(rot * Math.PI) * 5)/100) >= 0) {
-					if (map[(int)((posX - Math.cos(rot * Math.PI) * 5)/100)][(int)((posY - Math.sin(rot * Math.PI) * 5)/100)] == 0) {
+					if (Main.map[(int)((posX - Math.cos(rot * Math.PI) * 5)/100)][(int)((posY - Math.sin(rot * Math.PI) * 5)/100)] == 0) {
 						posX -= Math.cos(rot * Math.PI) * 5;
 						posY -= Math.sin(rot * Math.PI) * 5;
 					}

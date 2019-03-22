@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class Game extends JPanel {
-	int[][] map;
 	double[][] objects;
 	int width, height;
 	int health;
@@ -17,18 +16,18 @@ public class Game extends JPanel {
 	ArrayList<ArrayList<int[]>> enemyDraw;
 	ArrayList<Enemy> enemies;
 	
-	public Game(int[][] map) {
+	public Game() {
 		super();
 		width = 800;
 		height = 450;
 		viewDist = 1200;
 		health = 100;
 		setPreferredSize(new Dimension(width, height));
-		this.map = map;
-		camera = new Camera(map, this);
+		camera = new Camera(this);
 		objects = new double[width][2];
 		enemies = new ArrayList<Enemy>();
 		enemies.add(new TargetThing(600, 600, camera, this));
+		enemies.add(new TargetThing(200, 600, camera, this));
 		update();
 	}
 	
@@ -75,7 +74,7 @@ public class Game extends JPanel {
 			for (int j = 0; j < viewDist; j++) {
 				posX += vectX;
 				posY += vectY;
-				if ((int)(posX / 100) < map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < map[0].length && (int)(posY / 100) >= 0) {
+				if ((int)(posX / 100) < Main.map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < Main.map[0].length && (int)(posY / 100) >= 0) {
 					for (int k = 0; k < enemies.size(); k++) {
 						if ((int) (enemies.get(k).getPosX()) == (int) (posX) && (int) (enemies.get(k).getPosY()) == (int) (posY)) {
 							draw.get((int) Math.sqrt((posX - camera.posX) * (posX - camera.posX) + (posY - camera.posY) * (posY - camera.posY))).add(new int[] {1, (int)((i + (camera.fov / 2)) * (width / camera.fov)), k});
@@ -102,9 +101,9 @@ public class Game extends JPanel {
 		for (int i = 0; i < viewDist; i++) {
 			posX += vectX;
 			posY += vectY;
-			if ((int)(posX / 100) < map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < map[0].length && (int)(posY / 100) >= 0) {
-				if (map[(int)(posX / 100)][(int)(posY / 100)] != 0) {
-					return new double[] {map[(int)(posX / 100)][(int)(posY / 100)], Math.sqrt(Math.pow((posX - camera.posX), 2) + Math.pow((posY - camera.posY), 2))};
+			if ((int)(posX / 100) < Main.map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < Main.map[0].length && (int)(posY / 100) >= 0) {
+				if (Main.map[(int)(posX / 100)][(int)(posY / 100)] != 0) {
+					return new double[] {Main.map[(int)(posX / 100)][(int)(posY / 100)], Math.sqrt(Math.pow((posX - camera.posX), 2) + Math.pow((posY - camera.posY), 2))};
 				}
 			}
 		}
@@ -148,7 +147,8 @@ public class Game extends JPanel {
 		//health and ammo
 		//g.drawImage(this.getClass().getResource("/hudBackground.png"), height - imgHeight, (width - imgWidth) / 2, null);
 		g.setFont(new Font("arial", 0, 20));
-		g.drawString(health + "", 0, height - 5);
+		g.drawString("Health: " + health, 0, height - 5);
+		g.drawString("Enemies left: " + enemies.size() + "", 0, height - 25);
 	}
 	
 	public Enemy getEnemy(int index) {
@@ -164,8 +164,8 @@ public class Game extends JPanel {
 		for (int j = 0; j < viewDist; j++) {
 			posX += vectX;
 			posY += vectY;
-			if ((int)(posX / 100) < map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < map[0].length && (int)(posY / 100) >= 0) {
-				if (map[(int)(posX / 100)][(int)(posY / 100)] != 0) {
+			if ((int)(posX / 100) < Main.map.length && (int)(posX / 100) >= 0 && (int)(posY / 100) < Main.map[0].length && (int)(posY / 100) >= 0) {
+				if (Main.map[(int)(posX / 100)][(int)(posY / 100)] != 0) {
 					return;
 				}
 				for (int k = 0; k < enemies.size(); k++) {

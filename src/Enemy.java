@@ -40,6 +40,7 @@ public abstract class Enemy {
 	}
 	
 	public boolean onHit(int damage) {
+		System.out.println("hit");
 		health -= damage;
 		if (health <= 0) {
 			return true;
