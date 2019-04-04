@@ -8,9 +8,9 @@ public class Camera implements KeyListener, MouseListener {
 	boolean forward, back, left, right;
 	Game game;
 	
-	public Camera(Game g) {
-		posX = 150;
-		posY = 150;
+	public Camera(Game g, double x, double y) {
+		posX = x;
+		posY = y;
 		rot = 0;
 		fov = .3;
 		game = g;

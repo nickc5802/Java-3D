@@ -23,7 +23,7 @@ public class Game extends JPanel {
 		viewDist = 1200;
 		health = 100;
 		setPreferredSize(new Dimension(width, height));
-		camera = new Camera(this);
+		camera = new Camera(this, 150, 150);
 		objects = new double[width][2];
 		enemies = new ArrayList<Enemy>();
 		enemies.add(new TargetThing(600, 600, camera, this));
@@ -35,11 +35,22 @@ public class Game extends JPanel {
 		for (Enemy e : enemies) {
 			e.update();
 		}
+		if (enemies.size() == 0) {
+			changeLevel();
+		}
 		camera.update();
 		getObjects();
 		setUpDraw();
 		getEnemies();
 		repaint();
+	}
+	
+	private void changeLevel() {
+		camera.posX = 150;
+		camera.posY = 150;
+		enemies.add(new TargetThing(600, 600, camera, this));
+		enemies.add(new TargetThing(200, 600, camera, this));
+		Main.map = Main.map1;
 	}
 	
 	private void setUpDraw() {
