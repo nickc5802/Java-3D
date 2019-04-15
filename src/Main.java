@@ -50,6 +50,18 @@ public class Main {
 		Timer timer = new Timer();
 		timer.schedule(task, 0, 1000/60);
 	}
-
+	
+	public static void newMap() {
+		for (int i = 1; i < map.length - 1; i++) {
+			for (int j = 1; j < map.length - 1; j++) {
+				if ((int)(Math.random() * 3) > 0) {
+					map[i][j] = 0;
+				} else {
+					map[i][j] = 2;
+				}
+			}
+		}
+		map[1][1] = 0;
+	}
 	
 }
