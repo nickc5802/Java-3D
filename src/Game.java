@@ -25,7 +25,7 @@ public class Game extends JPanel {
 		setPreferredSize(new Dimension(width, height));
 		camera = new Camera(this, 150, 150);
 		objects = new double[width][2];
-		enemies = new ArrayList<Enemy>();
+		enemies = new ArrayList();
 		enemies.add(new TargetThing(600, 600, camera, this));
 		enemies.add(new TargetThing(200, 600, camera, this));
 		update();
@@ -54,9 +54,9 @@ public class Game extends JPanel {
 	}
 	
 	private void setUpDraw() {
-		draw = new ArrayList<ArrayList<int[]>>();
+		draw = new ArrayList();
 		for (int i = 0; i < viewDist; i++) {
-			draw.add(new ArrayList<int[]>());
+			draw.add(new ArrayList());
 		}
 		for (int i = 0; i < objects.length; i++) {
 			draw.get((int) objects[i][1]).add(new int[] {0, (int) objects[i][0], i});
