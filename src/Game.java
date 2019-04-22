@@ -50,7 +50,7 @@ public class Game extends JPanel {
 		camera.posY = 150;
 		enemies.add(new TargetThing(600, 600, camera, this));
 		enemies.add(new TargetThing(200, 600, camera, this));
-		Main.map = Main.map1;
+		Main.newMap();
 	}
 	
 	private void setUpDraw() {

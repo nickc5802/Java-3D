@@ -4,17 +4,6 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 
 public class Main {
-	public static int[][] map1 = {
-			{1,1,1,1,1,1,1,1},
-			{1,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,1},
-			{1,1,1,1,1,1,1,1}
-	};
-	
 	public static int[][] map = {
 			{1,1,1,1,1,1,1,1},
 			{1,0,0,0,0,0,0,1},
@@ -62,6 +51,54 @@ public class Main {
 			}
 		}
 		map[1][1] = 0;
+		if (!mapCheck()) {
+			newMap();
+		}
+	}
+
+	public static boolean mapCheck() {
+		int[][] temp = new int[map.length][map[0].length];
+		for (int i = 1; i < map.length - 1; i++) {
+			for (int j = 1; j < map.length - 1; j++) {
+				temp[i][j] = map[i][j];
+			}
+		}
+		temp[1][1] = -1;
+		boolean hasZero = false;
+		boolean changed = true;
+		while (changed) {
+			changed = false;
+			for (int i = 1; i < map.length - 1; i++) {
+				for (int j = 1; j < map.length - 1; j++) {
+					if (temp[i][j] == -1) {
+						if (temp[i+1][j] == 0) {
+							temp[i+1][j] = -1;
+							changed = true;
+						}
+						if (temp[i-1][j] == 0) {
+							temp[i-1][j] = -1;
+							changed = true;
+						}
+						if (temp[i][j+1] == 0) {
+							temp[i][j+1] = -1;
+							changed = true;
+						}
+						if (temp[i][j-1] == 0) {
+							temp[i][j-1] = -1;
+							changed = true;
+						}
+					}
+				}
+			}
+		}
+		for (int i = 1; i < map.length - 1; i++) {
+			for (int j = 1; j < map.length - 1; j++) {
+				if (temp[i][j] == 0) {
+					hasZero = true;
+				}
+			}
+		}
+		return !hasZero;
 	}
 	
 }
