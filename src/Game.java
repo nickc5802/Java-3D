@@ -12,12 +12,13 @@ public class Game extends JPanel {
 	int health;
 	Camera camera;
 	int viewDist;
+	int level;
 	ArrayList<ArrayList<int[]>> draw;
-	ArrayList<ArrayList<int[]>> enemyDraw;
 	ArrayList<Enemy> enemies;
 	
 	public Game() {
 		super();
+		level = 1;
 		width = 800;
 		height = 450;
 		viewDist = 1200;
@@ -26,8 +27,7 @@ public class Game extends JPanel {
 		camera = new Camera(this, 150, 150);
 		objects = new double[width][2];
 		enemies = new ArrayList();
-		enemies.add(new TargetThing(600, 600, camera, this));
-		enemies.add(new TargetThing(200, 600, camera, this));
+		spawnEnemies(2);
 		update();
 	}
 	
@@ -48,9 +48,19 @@ public class Game extends JPanel {
 	private void changeLevel() {
 		camera.posX = 150;
 		camera.posY = 150;
-		enemies.add(new TargetThing(600, 600, camera, this));
-		enemies.add(new TargetThing(200, 600, camera, this));
+		level++;
 		Main.newMap();
+		spawnEnemies(2);
+	}
+
+	private void spawnEnemies(int numEnemies) {
+		for (int i = 0; i < numEnemies; i++) {
+			int x = (int) (Math.random() * (Main.map.length - 2));
+			int y = (int) (Math.random() * (Main.map[0].length - 2));
+			if (Main.map[x][y] == 0) {
+				enemies.add(new TargetThing(x * 100 + 50, y * 100 + 50, camera, this));
+			}
+		}
 	}
 	
 	private void setUpDraw() {
