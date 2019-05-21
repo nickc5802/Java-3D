@@ -3,18 +3,19 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JPanel;
 
 public class Game extends JPanel {
-	double[][] objects;
-	int width, height;
-	int health;
-	Camera camera;
-	int viewDist;
-	int level;
-	ArrayList<ArrayList<int[]>> draw;
-	ArrayList<Enemy> enemies;
+	private double[][] objects;
+	private int width, height;
+	private int health;
+	private Camera camera;
+	private int viewDist;
+	private int level;
+	private ArrayList<ArrayList<int[]>> draw;
+	private ArrayList<Enemy> enemies;
 	
 	public Game() {
 		super();
@@ -54,11 +55,18 @@ public class Game extends JPanel {
 	}
 
 	private void spawnEnemies(int numEnemies) {
+		boolean[][] spawnLocations = new boolean[Main.map.length][Main.map[0].length];
+		for (boolean[] b : spawnLocations) {
+			Arrays.fill(b, false);
+		}
 		for (int i = 0; i < numEnemies; i++) {
 			int x = (int) (Math.random() * (Main.map.length - 2));
 			int y = (int) (Math.random() * (Main.map[0].length - 2));
-			if (Main.map[x][y] == 0) {
+			if (Main.map[x][y] == 0 && spawnLocations[x][y] == false) {
 				enemies.add(new TargetThing(x * 100 + 50, y * 100 + 50, camera, this));
+				spawnLocations[x][y] = true;
+			} else {
+				i--;
 			}
 		}
 	}
