@@ -62,7 +62,7 @@ public class Game extends JPanel {
 		for (int i = 0; i < numEnemies; i++) {
 			int x = (int) (Math.random() * (Main.map.length - 2));
 			int y = (int) (Math.random() * (Main.map[0].length - 2));
-			if (Main.map[x][y] == 0 && spawnLocations[x][y] == false) {
+			if (Main.map[x][y] == 0 && !spawnLocations[x][y]) {
 				enemies.add(new TargetThing(x * 100 + 50, y * 100 + 50, camera, this));
 				spawnLocations[x][y] = true;
 			} else {
@@ -162,7 +162,7 @@ public class Game extends JPanel {
 					g.fillRect(draw.get(i).get(j)[2], i / (viewDist / (height / 2)), 1, ((height / 2) - (i / (viewDist / (height / 2)))) * 2);
 				} else if (draw.get(i).get(j)[0] == 1) {
 					Enemy e = getEnemy(draw.get(i).get(j)[2]);
-					double newHeight =  (height - i / ((viewDist / (height / 2)) / 2));
+					double newHeight =  (height - i / ((viewDist / (height / 2.0)) / 2));
 					double newWidth = (newHeight * e.getSprite().getWidth()) / e.getSprite().getHeight();
 					g.drawImage(e.getSprite(), draw.get(i).get(j)[1] - (int) (newWidth / 2), (int) (i / (viewDist / (height / 4))) + height / 4, (int) (newWidth / 2), (int) (newHeight / 2), null);
 				}
@@ -175,7 +175,8 @@ public class Game extends JPanel {
 		g.fillRect((int) (width / 2.0) - 1, (int) (height / 2.0) - 5, 2, 10);
 		//health and ammo
 		//g.drawImage(this.getClass().getResource("/hudBackground.png"), height - imgHeight, (width - imgWidth) / 2, null);
-		g.setFont(new Font("arial", 0, 20));
+		g.setFont(new Font("arial", Font.PLAIN, 20));
+		g.setColor(Color.WHITE);
 		g.drawString("Health: " + health, 0, height - 5);
 		g.drawString("Enemies left: " + enemies.size() + "", 0, height - 25);
 	}
@@ -200,7 +201,7 @@ public class Game extends JPanel {
 				for (int k = 0; k < enemies.size(); k++) {
 					Enemy e = enemies.get(k);
 					int dist = (int) Math.sqrt((camera.posX - e.getPosX() * camera.posX - e.getPosX()) + (camera.posY - e.getPosY() * camera.posY - e.getPosY()));
-					double newHeight =  (height - dist / ((viewDist / (height / 2)) / 2));
+					double newHeight =  (height - dist / ((viewDist / (height / 2.0)) / 2));
 					double newWidth = (newHeight * e.getSprite().getWidth()) / e.getSprite().getHeight() / 8;
 					if ((int) (enemies.get(k).getPosX() - newWidth / 2) < (int) (posX) && (int) (enemies.get(k).getPosX() + newWidth / 2) > (int) (posX) && (int) (enemies.get(k).getPosY()) < (int) (posY) && (int) (enemies.get(k).getPosY()) + newWidth > (int) (posY)) {
 						if (enemies.get(k).onHit(25)) {
