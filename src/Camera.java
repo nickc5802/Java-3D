@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Camera implements KeyListener, MouseListener {
-	double posX, posY, rot, fov;
+	double posX, posY, rot, fov, rotSpeed;
 	boolean forward, back, left, right;
 	Game game;
 	
@@ -14,6 +14,7 @@ public class Camera implements KeyListener, MouseListener {
 		rot = 0;
 		fov = .3;
 		game = g;
+		rotSpeed = .008;
 	}
 	
 	public void update() {
@@ -37,9 +38,9 @@ public class Camera implements KeyListener, MouseListener {
 			}
 		}
 		if (left) {
-			rot -= 0.008;
+			rot -= rotSpeed;
 		} else if (right) {
-			rot += 0.008;
+			rot += rotSpeed;
 		}
 	}
 	

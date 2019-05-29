@@ -27,8 +27,8 @@ public class Game extends JPanel {
 		setPreferredSize(new Dimension(width, height));
 		camera = new Camera(this, 150, 150);
 		objects = new double[width][2];
-		enemies = new ArrayList();
-		spawnEnemies(2);
+		enemies = new ArrayList<Enemy>();
+		spawnEnemies(1);
 		update();
 	}
 	
@@ -51,7 +51,11 @@ public class Game extends JPanel {
 		camera.posY = 150;
 		level++;
 		Main.newMap();
-		spawnEnemies(2);
+		if (level < 10) {
+			spawnEnemies(level);
+		} else {
+			spawnEnemies(10);
+		}
 	}
 
 	private void spawnEnemies(int numEnemies) {
@@ -62,7 +66,7 @@ public class Game extends JPanel {
 		for (int i = 0; i < numEnemies; i++) {
 			int x = (int) (Math.random() * (Main.map.length - 2));
 			int y = (int) (Math.random() * (Main.map[0].length - 2));
-			if (Main.map[x][y] == 0 && !spawnLocations[x][y]) {
+			if (Main.map[x][y] == 0 && !spawnLocations[x][y] && ((int)(camera.posX / 100) != x && (int)(camera.posY / 100) != y)) {
 				enemies.add(new TargetThing(x * 100 + 50, y * 100 + 50, camera, this));
 				spawnLocations[x][y] = true;
 			} else {
@@ -72,9 +76,9 @@ public class Game extends JPanel {
 	}
 	
 	private void setUpDraw() {
-		draw = new ArrayList();
+		draw = new ArrayList<ArrayList<int[]>>();
 		for (int i = 0; i < viewDist; i++) {
-			draw.add(new ArrayList());
+			draw.add(new ArrayList<int[]>());
 		}
 		for (int i = 0; i < objects.length; i++) {
 			draw.get((int) objects[i][1]).add(new int[] {0, (int) objects[i][0], i});
