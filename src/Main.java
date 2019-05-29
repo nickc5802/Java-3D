@@ -7,16 +7,17 @@ public class Main {
 	public static int[][] map = {
 			{1,1,1,1,1,1,1,1},
 			{1,0,0,0,0,0,0,1},
-			{1,0,0,2,0,0,0,1},
-			{1,0,0,2,3,0,0,1},
-			{1,0,0,0,3,2,0,1},
-			{1,0,0,2,2,0,0,1},
+			{1,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,1},
+			{1,0,0,0,0,0,0,1},
 			{1,0,0,0,0,0,0,1},
 			{1,1,1,1,1,1,1,1}
 	};
 	
 	private static Game game;
 	public static void main(String[] args) {
+		newMap();
 		JFrame frame = new JFrame("3D Test");
 		game = new Game();
 		frame.add(game);
